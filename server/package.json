@@ -1,0 +1,32 @@
+{
+  "name": "simple-server",
+  "version": "1.0.0",
+  "description": "simple server for our authentication",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antonpalermo/simple-authentication.git"
+  },
+  "keywords": [
+    "server"
+  ],
+  "author": "Anton Palermo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/antonpalermo/simple-authentication/issues"
+  },
+  "homepage": "https://github.com/antonpalermo/simple-authentication#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "joi": "^17.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.5",
+    "volleyball": "^1.5.1"
+  }
+}
