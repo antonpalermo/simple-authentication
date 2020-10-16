@@ -1,3 +1,6 @@
+// [ ] fetch api from our express server.
+
+const API_URI = 'http://localhost:3000'
 
 let isFormVisible = false;
 const data = [{ name: 'Anton Palermo', username: 'antonpalermo', password: 'admin' }];
@@ -8,6 +11,9 @@ const signInForm = document.querySelector('#sign-in');
 const signUpForm = document.querySelector('#sign-up');
 const detailsForm = document.querySelector('#details');
 const swtich = document.querySelector('#switch');
+
+const msgBox = document.querySelector('#msg-placeholder');
+const msgText = document.createElement('p');
 
 const logoutButton = document.createElement('button');
 logoutButton.textContent = 'Logout';
@@ -38,17 +44,35 @@ signUpForm.addEventListener('submit', (e) => {
 
     const signUpFormData = new FormData(signUpForm);
 
-    const name = signUpFormData.get('name');
+    const name = signUpFormData.get('fullname');
     const username = signUpFormData.get('username');
     const password = signUpFormData.get('password');
-    
-    data.push({ name, username, password});
-    signUpForm.reset();
-    console.log(`${name} is successfully added to data object`);
-    signUpForm.style.display = 'none';        
-    signInForm.style.display = 'block';  
 
-    console.log(`Current record: ${data.length}`);      
+    const user = {
+      fullname: name,
+      username: username,
+      password: password
+    }
+
+    // createNewUser(user);
+
+    fetch(`${API_URI}/auth/signup`, {
+      method: 'POST',
+      mode: 'cors',
+      body: JSON.stringify(user),
+      headers: {
+        'content-type': 'application/json'
+      }
+    }).then(res => {
+      if (res.ok) {
+        return res.json().then(err => Promise.reject(err.message));
+      } else {
+        return res.text().then(msg => Promise.resolve(msg));
+      }
+    }).then(json => {
+      signUpForm.reset();
+      console.log(json);
+    })
 });
 
 signInForm.addEventListener('submit', (e) => {
@@ -80,15 +104,11 @@ signInForm.addEventListener('submit', (e) => {
             detailsForm.appendChild(logoutButton);
             swtich.style.display = 'none';
 
-            
+
         } else {
             console.log('not matched');
         }
     } catch (error) {
         console.log('user does not exist');
     }
-
 });
-
-
-
